@@ -1,0 +1,16 @@
+<copybook>
+	<ROOT>
+		<A>ABCDEF</A>
+		<B>BCDE</B>
+		<C>12345</C>
+		<D>1234</D>
+		<SUB>
+			<E> E </E>
+			<F>FF </F>
+		</SUB>
+		<SUB>
+			<E>EEE</E>
+			<F>FFF</F>
+		</SUB>
+	</ROOT>
+</copybook>

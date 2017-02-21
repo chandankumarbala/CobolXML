@@ -1,0 +1,20 @@
+<copybook filename="b.copybook">
+	<item display-length="31" level="10" name="ROOT" position="1"
+		storage-length="31">
+		<item display-length="6" level="15" name="A" picture="X(6)"
+			position="1" storage-length="6" />
+		<item display-length="4" level="15" name="B" picture="XXXX"
+			position="7" storage-length="4" />
+		<item display-length="5" level="15" name="C" numeric="true"
+			picture="S9(5)" position="11" signed="true" storage-length="5" />
+		<item display-length="4" level="15" name="D" numeric="true"
+			picture="9(4)" position="16" storage-length="4" />
+		<item display-length="6" level="15" name="SUB" occurs="2"
+			position="20" storage-length="6">
+			<item display-length="3" level="20" name="E" picture="A(3)"
+				position="20" storage-length="3" />
+			<item display-length="3" level="20" name="F" picture="AAA"
+				position="23" storage-length="3" />
+		</item>
+	</item>
+</copybook>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><copybook filename="b.copybook">
+	<ROOT> 
+		<A> </A>
+		<B> </B>
+		<C> </C>
+		<D> </D>
+		<SUB> 
+			<E> </E>
+			<F> </F>
+		</SUB>
+	</ROOT>
+</copybook>
