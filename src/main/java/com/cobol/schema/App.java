@@ -33,33 +33,16 @@ import net.sf.cb2xml.util.XmlUtils;
  */
 public class App {
 
+	
+	public static String cobolXmlCleaningXSL="src/main/resources/cobolXmlFilter.xsl";
+	public static String cobolXmlToEmptyDataXSL="src/main/resources/emptyXml.xsl";
 	public static void main(String[] args) {
-		// System.out.println( "Hello World!" );
-		/*
-		 * String inputCobolCpyBook="E:\\java\\cobolFiles\\address.cpy"; String
-		 * xmlOutputFIle="E:\\java\\cobolFiles\\addressXML.xml";
-		 * 
-		 * 
-		 * String xmlString=Cb2Xml.convertToXMLString(new
-		 * File(inputCobolCpyBook)); System.out.println("Generated XML \n"
-		 * +xmlString); try { FileWriter fw = new FileWriter(xmlOutputFIle);
-		 * fw.write(xmlString); fw.close(); } catch ( Exception e){
-		 * e.printStackTrace(); }
-		 * 
-		 * //String[] fileArr={xmlOutputFIle,inputCobolCpyBook};
-		 * //Xml2Dat.main(fileArr); Hashtable<String, String> hashtable = new
-		 * Hashtable<String, String>(); hashtable.put("COMPANY-NAME", "DBS");
-		 * hashtable.put("LAST-NAME", "Bala"); hashtable.put("FIRST-NAME",
-		 * "chandan");
-		 * 
-		 * String maindata=new HashtableToMainframe().convert(hashtable,
-		 * XmlUtils.fileToDom(xmlOutputFIle)); System.out.println(maindata);
-		 */
-
-		convertToCobolXML("src/main/resources/b.copybook");
-		//convertFlatFileToXMLDataFile("src/main/resources/b.copybook", "src/main/resources/emptyFile.txt");
-		//convertXMLDataFileToFlatFile("src/main/resources/b.copybook", "src/main/resources/b.copybook_data_xml.xml");
-		generateEmpTyXMLFile("src/main/resources/b.copybook_xml.xml", "src/main/resources/emptyXml.xsl" );
+		//convertToCobolXML("src/main/resources/UIA011C.cpy");
+		//filterCobolXMLFile("src/main/resources/UIA011C.cpy_xml.xml", cobolXmlCleaningXSL);
+		//convertFlatFileToXMLDataFile("src/main/resources/holder.cpy", "src/main/resources/holderoutput.txt");
+		//convertXMLDataFileToFlatFile("src/main/resources/UIA011C.cpy", "src/main/resources/UIA011C_xml_data.xml");
+		//generateEmpTyXMLFile("src/main/resources/UIA011C.cpy_xml.xml", cobolXmlToEmptyDataXSL );
+		
 	}
 
 	public static void convertToCobolXML(String path) {
@@ -70,6 +53,7 @@ public class App {
 			File cobolFile = new File(path);
 			String XmlString = Cb2Xml.convertToXMLString(cobolFile);
 			writeFile(outPutFile, XmlString);
+			System.out.println("Output file is at =>"+outPutFile);
 		} else {
 			System.out.println("File already there skipped creation");
 		}
@@ -94,17 +78,22 @@ public class App {
         
         String outputFIlePath=cobolFilePath+"_data_xml.xml";
         writeFile(outputFIlePath, resultBuffer.toString());
+        
+        System.out.println("Output file is at =>"+outputFIlePath);
 	}
 	
 	public static void convertXMLDataFileToFlatFile(String cobolFilePath,String cobolXMlDataFilePath){
 		String outputFIlePath=cobolFilePath+".dat";
 		
-		String cobolXmlPath=cobolFilePath+ "_xml.xml";
+		String cobolXmlPath=cobolFilePath+ "_xml_filtered.xml";
+		
 		Document sourceFileXml = XmlUtils.fileToDom(cobolXMlDataFilePath);
         Document copyBookXml = XmlUtils.fileToDom(cobolXmlPath);
 
         String resultString = new XmlToMainframe().convert(sourceFileXml, copyBookXml);
         writeFile(outputFIlePath,resultString);
+        
+        System.out.println("Output file is at =>"+outputFIlePath);
 	}
 	
 	
@@ -118,8 +107,26 @@ public class App {
 		      Transformer transformer = template.newTransformer();
 		      OutputStream out = new BufferedOutputStream(new FileOutputStream(xmlFile.replace(".xml", "_empty.xml")),1024);
 		      transformer.transform(xml, new StreamResult(out));
-		     
+		      System.out.println("Output file is at =>"+xmlFile.replace(".xml", "_empty.xml"));
 		      
+		    } catch(Exception tce) {
+		        tce.printStackTrace();
+		    } 
+		  
+	}
+	
+	public static void filterCobolXMLFile(String xmlFile, String xslFile){
+		
+		Source xml = new StreamSource(new File(xmlFile));
+		Source xsl=new StreamSource(new File(xslFile));
+		 try {
+			 TransformerFactory factory=TransformerFactory.newInstance();
+		      Templates template = factory.newTemplates(xsl);
+		      Transformer transformer = template.newTransformer();
+		      OutputStream out = new BufferedOutputStream(new FileOutputStream(xmlFile.replace(".xml", "_filtered.xml")),1024);
+		      transformer.transform(xml, new StreamResult(out));
+		      System.out.println("Output file is at =>"+xmlFile.replace(".xml", "_filtered.xml"));
+		     
 		    } catch(Exception tce) {
 		        tce.printStackTrace();
 		    } 

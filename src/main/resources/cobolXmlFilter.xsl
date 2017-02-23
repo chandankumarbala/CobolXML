@@ -8,11 +8,5 @@
             <xsl:apply-templates select="@* | node()" />
         </xsl:copy>
     </xsl:template>
-    <xsl:template match="item">
-        <xsl:element name="{@name}">
-        	<xsl:text> </xsl:text>
-            <xsl:apply-templates />
-        </xsl:element>
-    </xsl:template>
      <xsl:template match="condition"/>
 </xsl:stylesheet>
